@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  mongodb:
+    container_name: mongodb
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=probe
+      - MONGO_INITDB_ROOT_PASSWORD=probe
+    volumes:
+      - mongo-data:/data/db
+    networks:
+      - db-network
+
+
+  grafana-mongodb:
+    build: https://github.com/mihaipstef/grafana-mongodb-docker.git#pm2-support
+    image: grafana-mongodb-docker
+    restart: always
+    ports:
+     - 3000:3000
+    environment:
+      - MONGODB_URL=mongodb://probe-db:27017/
+    links:
+      - mongodb
+    volumes:
+      - grafana-data:/var/lib/grafana
+    networks:
+      - db-network
+
+
+volumes:
+  mongo-data:
+  grafana-data:
+
+
+networks:
+  db-network:
+    driver: bridge
