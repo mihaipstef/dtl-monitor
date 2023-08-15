@@ -1,9 +1,11 @@
 version: "3.8"
 
+
 services:
   mongodb:
-    container_name: mongodb
     image: mongo:latest
+    container_name: mongodb
+    restart: always
     ports:
       - 27017:27017
     environment:
@@ -15,9 +17,10 @@ services:
       - db-network
 
 
-  grafana-mongodb:
+  grafana:
     build: https://github.com/mihaipstef/grafana-mongodb-docker.git#pm2-support
     image: grafana-mongodb-docker
+    container_name: grafana
     restart: always
     ports:
      - 3000:3000
@@ -27,6 +30,7 @@ services:
       - mongodb
     volumes:
       - grafana-data:/var/lib/grafana
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
     networks:
       - db-network
 
