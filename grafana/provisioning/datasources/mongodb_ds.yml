@@ -1,0 +1,16 @@
+datasources:
+- name: MongoDB
+  uid: "cd71dd54-8b77-406c-b4fc-98d7f53ce707"
+  type: grafana-mongodb-opensource-datasource
+  typeName: MongoDB
+  orgId: 1
+  access: proxy
+  url: 127.0.0.1:3333
+  user: ''
+  database: ''
+  basicAuth: false
+  isDefault: true
+  jsonData:
+    mongodb_db: probe_data
+    mongodb_url: mongodb://probe:probe@mongodb:27017?authSource=admin
+  readOnly: false
